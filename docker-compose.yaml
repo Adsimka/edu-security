@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  service-db:
+    image: postgres:14.3
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "${POSTGRES_PORT_EXTERNAL}:${POSTGRES_PORT_INTERNAL}"
+    restart: unless-stopped
