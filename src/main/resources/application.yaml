@@ -1,6 +1,9 @@
 spring:
   application:
     name: edu-security
+  security:
+    user:
+      password: password
 
 logging:
   level:
