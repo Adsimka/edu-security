@@ -26,6 +26,3 @@ logging:
     org:
       springframework:
         security: TRACE
-        web:
-          authentication:
-            UsernamePasswordAuthenticationFilter: TRACE
