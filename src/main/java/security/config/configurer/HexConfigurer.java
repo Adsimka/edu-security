@@ -6,8 +6,10 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.security.web.authentication.AuthenticationEntryPointFailureHandler;
+import org.springframework.security.web.authentication.AuthenticationFilter;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
-import security.config.filter.HexAuthenticationFilter;
+import security.config.converter.HexConverter;
 
 public class HexConfigurer extends AbstractHttpConfigurer<HexConfigurer, HttpSecurity> {
 
@@ -28,7 +30,11 @@ public class HexConfigurer extends AbstractHttpConfigurer<HexConfigurer, HttpSec
     @Override
     public void configure(HttpSecurity http) throws Exception {
         final var authenticationManager = http.getSharedObject(AuthenticationManager.class);
-        http.addFilterBefore(new HexAuthenticationFilter(authenticationManager, authenticationEntryPoint), BasicAuthenticationFilter.class);
+        final var authenticationFilter = new AuthenticationFilter(authenticationManager, new HexConverter());
+        authenticationFilter.setSuccessHandler((request, response, authentication) -> {});
+        authenticationFilter.setFailureHandler(new AuthenticationEntryPointFailureHandler(authenticationEntryPoint));
+
+        http.addFilterBefore(authenticationFilter, BasicAuthenticationFilter.class);
     }
 
     public HexConfigurer authenticationEntryPoint(AuthenticationEntryPoint authenticationEntryPoint) {
