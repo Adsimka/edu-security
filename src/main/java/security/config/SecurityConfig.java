@@ -1,6 +1,5 @@
 package security.config;
 
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
@@ -13,12 +12,11 @@ import security.service.JdbcUserDetailsService;
 
 import javax.sql.DataSource;
 
-@Slf4j
 @Configuration
 public class SecurityConfig {
 
     /**
-     *  Custom filter
+     * Custom filter
      */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
